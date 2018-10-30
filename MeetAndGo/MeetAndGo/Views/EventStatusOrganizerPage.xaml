@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MeetAndGo.Views.EventStatusOrganizerPage"
+             xmlns:controls="clr-namespace:MeetAndGo.Controls"
+             xmlns:components="clr-namespace:MeetAndGo.Views.EventStatusPageComponents"
+             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+             prism:ViewModelLocator.AutowireViewModel="True">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <controls:ViewCellSelector x:Key="ViewCellSelector"></controls:ViewCellSelector>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Start event" Order="Secondary" Command="{Binding StartEventCommand}" />
+        <ToolbarItem Text="Close event" Order="Secondary" Command="{Binding EndEventCommand}" />
+    </ContentPage.ToolbarItems>
+
+    <StackLayout Style="{StaticResource eventStatusMainStack}">
+
+        <components:LocationStacklayout />
+
+        <components:TimeStacklayout />
+
+        <components:PriceLabel />
+
+        <ListView Style="{StaticResource userListView}"
+                  ItemsSource="{Binding UserList}"
+                  SeparatorVisibility="None"
+                  ItemTemplate="{StaticResource ViewCellSelector}"
+                  SelectionMode="None">
+        </ListView>
+
+
+        <controls:UserMapControl Style="{StaticResource eventStatusMap}" 
+                          Directions="{Binding Directions}"
+                          Waypoints="{Binding Waypoints}" />
+
+    </StackLayout>
+</ContentPage>

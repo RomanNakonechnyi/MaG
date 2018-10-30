@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MeetAndGo.Views.NewEventPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:MeetAndGo.Helpers;assembly=MeetAndGo"
+    xmlns:constants="clr-namespace:MeetAndGo.Constants"
+    xmlns:placeSearchBar="clr-namespace:DurianCode.PlacesSearchBar;assembly=DurianCode.PlacesSearchBar"
+    xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+    xmlns:sys="clr-namespace:System;assembly=netstandard"
+    prism:ViewModelLocator.AutowireViewModel="True"
+    NavigationPage.HasBackButton="False"
+    NavigationPage.HasNavigationBar="False">
+
+    <ContentPage.Padding>
+        <OnPlatform x:TypeArguments="Thickness" iOS="0, 20, 0, 0" />
+    </ContentPage.Padding>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="placeSearchBar:PlacesBar">
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+            </Style>
+            <Style TargetType="ListView">
+                <Setter Property="BackgroundColor" Value="White" />
+            </Style>
+            <Style x:Key="commandLabel" TargetType="Label">
+                <Setter Property="TextColor" Value="Black" />
+                <Setter Property="FontSize" Value="Large" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <StackLayout>
+        <StackLayout Orientation="Horizontal">
+            <StackLayout.Padding>
+                <OnPlatform
+                    x:TypeArguments="Thickness"
+                    Android="0, 0, 15, 0"
+                    iOS="10, 0, 15, 0" />
+            </StackLayout.Padding>
+
+            <Button
+                BackgroundColor="Transparent"
+                BorderColor="Transparent"
+                Command="{Binding BackCommand}"
+                HorizontalOptions="Start"
+                Image="back.png"
+                VerticalOptions="Center" />
+            <Label
+                HorizontalOptions="EndAndExpand"
+                Style="{StaticResource commandLabel}"
+                Text="Create"
+                VerticalOptions="Center">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding CreateCommand}" />
+                </Label.GestureRecognizers>
+            </Label>
+        </StackLayout>
+
+        <ScrollView Padding="10,20,10,5" IsEnabled="True">
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="0.5*" />
+                    <RowDefinition Height="0.5*" />
+                    <RowDefinition Height="2*" />
+                </Grid.RowDefinitions>
+
+                <StackLayout Grid.Row="0">
+                    <Label Text="Start Location" />
+                    <placeSearchBar:PlacesBar
+                        x:Name="startLocationsSearchBar"
+                        HeightRequest="50"
+                        IsFocused="{Binding SearchBarListView.StartBarIsFocused}"
+                        MinimumSearchText="2"
+                        Text="{Binding StartLocation.Name}">
+
+                        <placeSearchBar:PlacesBar.Behaviors>
+                            <behaviors:PropertyChangedToCommand Command="{Binding PropertyCommand}" />
+                        </placeSearchBar:PlacesBar.Behaviors>
+                    </placeSearchBar:PlacesBar>
+                </StackLayout>
+
+                <StackLayout Grid.Row="1">
+                    <Label Text="End Location" />
+                    <placeSearchBar:PlacesBar
+                        x:Name="endLocationsSearchBar"
+                        HeightRequest="50"
+                        IsFocused="{Binding SearchBarListView.EndBarIsFocused}"
+                        MinimumSearchText="2"
+                        Text="{Binding EndLocation.Name}">
+
+                        <placeSearchBar:PlacesBar.Behaviors>
+                            <behaviors:PropertyChangedToCommand Command="{Binding PropertyCommand}" />
+                        </placeSearchBar:PlacesBar.Behaviors>
+                    </placeSearchBar:PlacesBar>
+                </StackLayout>
+
+                <StackLayout Grid.Row="2">
+                    <Label Text="Add intermediate point" />
+                    <StackLayout Orientation="Horizontal">
+                        <placeSearchBar:PlacesBar
+                            x:Name="intermediateLocationsSearchBar"
+                            IsFocused="{Binding SearchBarListView.IntermediateBarIsFocused}"
+                            MinimumSearchText="2"
+                            MinimumWidthRequest="50"
+                            Text="{Binding IntermediateLocation.Name}"
+                            WidthRequest="300">
+
+                            <placeSearchBar:PlacesBar.Behaviors>
+                                <behaviors:PropertyChangedToCommand Command="{Binding PropertyCommand}" />
+                            </placeSearchBar:PlacesBar.Behaviors>
+                        </placeSearchBar:PlacesBar>
+                        <Label
+                            HorizontalOptions="End"
+                            MinimumWidthRequest="50"
+                            Style="{StaticResource commandLabel}"
+                            Text="Add"
+                            VerticalOptions="Center">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding AddLocationCommand}" CommandParameter="{Binding Source={x:Reference intermediateLocationsSearchBar}, Path=Text}" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </StackLayout>
+                </StackLayout>
+
+                <StackLayout Grid.Row="3">
+                    <Label Text="Transport Type" />
+                    <Picker ItemsSource="{Binding Transports}" SelectedItem="{Binding Event.Transport}" />
+                </StackLayout>
+
+                <StackLayout Grid.Row="4" Orientation="Horizontal">
+                    <Grid HorizontalOptions="FillAndExpand">
+                        <Label
+                            Grid.Column="0"
+                            HorizontalOptions="FillAndExpand"
+                            Text="Starting Time"
+                            VerticalOptions="Center" />
+                        <StackLayout Grid.Column="1">
+                            <DatePicker
+                                Date="{Binding Event.EventDate}"
+                                HorizontalOptions="FillAndExpand"
+                                MaximumDate="{Binding MaxDate}"
+                                MinimumDate="{x:Static sys:DateTime.Now}" />
+                            <TimePicker Time="{Binding Event.EventTime}" />
+                        </StackLayout>
+                    </Grid>
+                </StackLayout>
+
+                <StackLayout Grid.Row="5" Orientation="Horizontal">
+                    <Grid HorizontalOptions="FillAndExpand">
+                        <Label Grid.Column="0" VerticalOptions="Center">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="Full Trip Price (" />
+                                    <Span Text="{Binding Event.CurrencyCode}" />
+                                    <Span Text=")" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                        <Entry
+                            Grid.Column="1"
+                            Keyboard="Numeric"
+                            Text="{Binding Event.TotalPrice}" />
+                    </Grid>
+                </StackLayout>
+
+                <StackLayout Grid.Row="6" Orientation="Horizontal">
+                    <Grid HorizontalOptions="FillAndExpand">
+                        <Label
+                            Grid.Column="0"
+                            Text="General Seats"
+                            VerticalOptions="Center" />
+                        <Picker
+                            Grid.Column="1"
+                            ItemsSource="{Binding SeatsAmount}"
+                            SelectedItem="{Binding Event.MaxSeats}" />
+                    </Grid>
+                </StackLayout>
+
+                <StackLayout Grid.Row="7">
+                    <Label HorizontalOptions="Center" Text="Comment" />
+
+                    <Frame
+                        BorderColor="LightGray"
+                        HasShadow="False"
+                        VerticalOptions="FillAndExpand">
+                        <Editor
+                            HorizontalOptions="FillAndExpand"
+                            Keyboard="Text"
+                            MaxLength="{Binding Source={x:Static constants:EventConstantHelper.MaximumDetailsLength}}"
+                            Text="{Binding Event.Details}"
+                            VerticalOptions="FillAndExpand" />
+                    </Frame>
+                </StackLayout>
+
+                <!--  Dropdown lists with locations  -->
+
+                <Frame
+                    Grid.Row="1"
+                    Grid.RowSpan="3"
+                    BorderColor="LightGray"
+                    HasShadow="False"
+                    IsVisible="{Binding SearchBarListView.StartListIsVisible}">
+                    <ListView ItemsSource="{Binding SearchBarListView.StartLocations}" SelectedItem="{Binding SearchBarListView.StartSelectedItem}">
+
+                        <ListView.Behaviors>
+                            <behaviors:ItemSelectedToCommand SelectCommand="{Binding StartSelectedItemCommand}" />
+                        </ListView.Behaviors>
+
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <TextCell Text="{Binding Description}" />
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Frame>
+
+                <Frame
+                    Grid.Row="2"
+                    Grid.RowSpan="3"
+                    BorderColor="LightGray"
+                    HasShadow="False"
+                    IsVisible="{Binding SearchBarListView.EndListIsVisible}">
+                    <ListView ItemsSource="{Binding SearchBarListView.EndLocations}" SelectedItem="{Binding SearchBarListView.EndSelectedItem}">
+
+                        <ListView.Behaviors>
+                            <behaviors:ItemSelectedToCommand SelectCommand="{Binding EndSelectedItemCommand}" />
+                        </ListView.Behaviors>
+
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <TextCell Text="{Binding Description}" />
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Frame>
+
+                <Frame
+                    Grid.Row="3"
+                    Grid.RowSpan="3"
+                    BorderColor="LightGray"
+                    HasShadow="False"
+                    IsVisible="{Binding SearchBarListView.IntermediateListIsVisible}">
+                    <ListView
+                        ItemsSource="{Binding SearchBarListView.IntermediateLocations}"
+                        SelectedItem="{Binding SearchBarListView.IntermediateSelectedItem}"
+                        WidthRequest="{Binding Source={x:Reference intermediateLocationsSearchBar}, Path=Width}">
+
+                        <ListView.Behaviors>
+                            <behaviors:ItemSelectedToCommand SelectCommand="{Binding IntermediateSelectedItemCommand}" />
+                        </ListView.Behaviors>
+
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <TextCell Text="{Binding Description}" />
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Frame>
+            </Grid>
+
+        </ScrollView>
+    </StackLayout>
+
+</ContentPage>

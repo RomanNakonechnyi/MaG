@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MeetAndGo.Views.EventDetailPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:MeetAndGo.Controls;assembly=MeetAndGo"
+    xmlns:conventors="clr-namespace:MeetAndGo.Conventors"
+    xmlns:ic="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
+    xmlns:maps="clr-namespace:Xamarin.Forms.GoogleMaps;assembly=Xamarin.Forms.GoogleMaps"
+    BackgroundColor="White">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Command="{Binding JoinCommand}" Text="Join" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <StackLayout>
+            <Grid Margin="15">
+                <Grid.Resources>
+                    <ResourceDictionary>
+                        <conventors:RemainingTimeConverter x:Key="remainingTimeConverter" />
+                        <Style TargetType="Image">
+                            <Setter Property="HeightRequest" Value="30" />
+                            <Setter Property="WidthRequest" Value="30" />
+                            <Setter Property="Scale" Value="0.7" />
+                        </Style>
+                    </ResourceDictionary>
+                </Grid.Resources>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="2*" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <!--<Button
+                Command="{Binding JoinCommand}"
+                HorizontalOptions="Center"
+                IsVisible="{Binding IsAssignedToEvent}"
+                Text="Join">
+                <Button.Triggers>
+                    <DataTrigger
+                        Binding="{Binding IsAssignedToEvent}"
+                        TargetType="Button"
+                        Value="True">
+                        <Setter Property="IsVisible" Value="False" />
+                    </DataTrigger>
+                    <DataTrigger
+                        Binding="{Binding IsAssignedToEvent}"
+                        TargetType="Button"
+                        Value="False">
+                        <Setter Property="IsVisible" Value="True" />
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>-->
+
+
+                <StackLayout
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    Orientation="Horizontal">
+                    <Image
+                        Scale="1"
+                        Source="location.png"
+                        VerticalOptions="CenterAndExpand" />
+                    <StackLayout VerticalOptions="CenterAndExpand">
+                        <Label
+                            FontSize="Medium"
+                            Text="{Binding StartAddress}"
+                            TextColor="#303030" />
+                        <Label
+                            FontSize="Medium"
+                            Text="{Binding EndAddress}"
+                            TextColor="#303030" />
+                    </StackLayout>
+                </StackLayout>
+
+                <StackLayout
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    Orientation="Horizontal">
+                    <Image Source="compass.png" />
+<!--                    <Label Text="{Binding CurrentEvent.Distance, StringFormat='Your distance is {0:F2} km'}" VerticalOptions="Center" />-->
+                    <Label
+                        FontSize="Medium"
+                        Text= "{Binding CurrentEvent.Distance, StringFormat='Your distance is {0:F2} km'}"
+
+                        TextColor="#303030"
+                        VerticalOptions="Center" />
+                </StackLayout>
+
+                <StackLayout
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Orientation="Horizontal">
+                    <Image Source="calendar.png" />
+                    <Label
+                        FontSize="Medium"
+                        HorizontalOptions="StartAndExpand"
+                        Text="{Binding CurrentEvent.Time}"
+                        TextColor="#303030"
+                        VerticalOptions="Center" />
+                </StackLayout>
+
+                <Label
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    FontSize="Medium"
+                    HorizontalOptions="EndAndExpand"
+                    Text="{Binding Path=CurrentEvent, Converter={StaticResource remainingTimeConverter}}"
+                    TextColor="#303030"
+                    VerticalOptions="Center" />
+
+                <StackLayout
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    Orientation="Horizontal">
+                    <Image Source="crowd.png" />
+                    <Label
+                        FontSize="Medium"
+                        HorizontalOptions="StartAndExpand"
+                        Text="{Binding CurrentEvent.CurrentNumberOfMembers}"
+                        TextColor="#303030"
+                        VerticalOptions="CenterAndExpand" />
+                </StackLayout>
+
+                <Label
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    FontSize="Medium"
+                    HorizontalOptions="EndAndExpand"
+                    Text="{Binding CurrentEvent.Price, StringFormat=' {0} UAH'}"
+                    TextColor="#303030"
+                    VerticalOptions="CenterAndExpand" />
+                <StackLayout
+                    Grid.Row="4"
+                    Grid.Column="0"
+                    HorizontalOptions="StartAndExpand"
+                    VerticalOptions="EndAndExpand">
+                    <Label Text="Created by" TextColor="#303030" />
+                    <Label
+                        FontAttributes="Bold"
+                        Text="{Binding CurrentEvent.Organiser.FullName}"
+                        TextColor="#303030" />
+                </StackLayout>
+
+                <StackLayout
+                    Grid.Row="4"
+                    Grid.Column="1"
+                    HorizontalOptions="EndAndExpand"
+                    Orientation="Horizontal"
+                    VerticalOptions="EndAndExpand">
+                    <Label
+                        FontSize="Medium"
+                        Text="{Binding CurrentEvent.Organiser.Rating, StringFormat=' ★ {0:0.0}'}"
+                        TextColor="#303030"
+                        VerticalOptions="Center" />
+                    <ic:CircleImage
+                        BorderColor="#303030"
+                        BorderThickness="0.5"
+                        Source="user.png" />
+                </StackLayout>
+            </Grid>
+            <controls:CustomMapControl
+                Margin="2"
+                Directions="{Binding Directions}"
+                HeightRequest="228"
+                MoveToCommand="{Binding MoveToCommand}"
+                UserDirections="{Binding UserDirections}" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<prism:PrismApplication
+    x:Class="MeetAndGo.App"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:MeetAndGo.Controls"
+    xmlns:prism="clr-namespace:Prism.DryIoc;assembly=Prism.DryIoc.Forms">
+    <Application.Resources>
+        <ResourceDictionary>
+            <x:String x:Key="formatRating">{0:0.0} ★</x:String>
+
+            <!--  EventStatusPage Resources  -->
+            <Style x:Key="eventStatusMap" TargetType="controls:UserMapControl">
+                <Setter Property="HeightRequest" Value="300" />
+                <Setter Property="MinimumHeightRequest" Value="200" />
+                <Setter Property="MapType" Value="Street" />
+            </Style>
+            <Style x:Key="eventStatusIcons" TargetType="Image">
+                <Setter Property="WidthRequest" Value="30" />
+                <Setter Property="HeightRequest" Value="30" />
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+            </Style>
+            <Style x:Key="eventStatusMainStack" TargetType="StackLayout">
+                <Setter Property="Padding" Value="10" />
+                <Setter Property="Spacing" Value="8" />
+            </Style>
+            <Style x:Key="userListView" TargetType="ListView">
+                <Setter Property="HeightRequest" Value="150" />
+            </Style>
+            <Style x:Key="locationLabel" TargetType="Label">
+                <Setter Property="FontSize" Value="Medium" />
+                <Setter Property="TextColor" Value="Black" />
+            </Style>
+            <Style TargetType="NavigationPage">
+                <Setter Property="BarBackgroundColor" Value="#212121" />
+                <Setter Property="BarTextColor" Value="White" />
+            </Style>
+        </ResourceDictionary>
+    </Application.Resources>
+</prism:PrismApplication>

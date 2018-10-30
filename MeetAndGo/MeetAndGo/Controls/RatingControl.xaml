@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<StackLayout
+    x:Class="MeetAndGo.Controls.RatingControl"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Name="starControl"
+    Margin="0,0,5,0"
+    HeightRequest="70"
+    Orientation="Horizontal"
+    Spacing="3">
+
+    <Grid>
+        <Image x:Name="starBlankOne" Source="star_outline.png">
+            <Image.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding Source={x:Reference starControl}, Path=StarSelected}" CommandParameter="1" />
+            </Image.GestureRecognizers>
+        </Image>
+
+        <Image
+            x:Name="starSelectedOne"
+            AutomationId="1"
+            IsVisible="False"
+            Source="red_star.png" />
+    </Grid>
+    <Grid>
+        <Image x:Name="starBlankTwo" Source="star_outline.png">
+            <Image.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding Source={x:Reference starControl}, Path=StarSelected}" CommandParameter="2" />
+            </Image.GestureRecognizers>
+        </Image>
+
+        <Image
+            x:Name="starSelectedTwo"
+            AutomationId="2"
+            IsVisible="False"
+            Source="orange_star.png" />
+    </Grid>
+    <Grid>
+        <Image x:Name="starBlankThree" Source="star_outline.png">
+            <Image.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding Source={x:Reference starControl}, Path=StarSelected}" CommandParameter="3" />
+            </Image.GestureRecognizers>
+        </Image>
+
+        <Image
+            x:Name="starSelectedThree"
+            AutomationId="3"
+            IsVisible="False"
+            Source="yellow_star.png" />
+    </Grid>
+    <Grid>
+        <Image x:Name="starBlankFour" Source="star_outline.png">
+            <Image.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding Source={x:Reference starControl}, Path=StarSelected}" CommandParameter="4" />
+            </Image.GestureRecognizers>
+        </Image>
+
+        <Image
+            x:Name="starSelectedFour"
+            AutomationId="4"
+            IsVisible="False"
+            Source="four_star.png" />
+    </Grid>
+    <Grid>
+        <Image x:Name="starBlankFive" Source="star_outline.png">
+            <Image.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding Source={x:Reference starControl}, Path=StarSelected}" CommandParameter="5" />
+            </Image.GestureRecognizers>
+        </Image>
+
+        <Image
+            x:Name="starSelectedFive"
+            AutomationId="5"
+            IsVisible="False"
+            Source="green_star.png" />
+    </Grid>
+</StackLayout>

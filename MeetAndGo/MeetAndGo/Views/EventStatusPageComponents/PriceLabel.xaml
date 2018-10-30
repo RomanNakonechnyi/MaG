@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<Label BackgroundColor="Accent"
+    x:Class="MeetAndGo.Views.EventStatusPageComponents.PriceLabel"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:conventors="clr-namespace:MeetAndGo.Conventors"
+    HorizontalOptions="End"
+    TextColor="#303030">
+
+    <Label.Resources>
+        <ResourceDictionary>
+            <conventors:TotalPriceToPriceConverter x:Key="TotalPriceToPriceConverter" />
+
+        </ResourceDictionary>
+    </Label.Resources>
+
+    <Label.FormattedText>
+        <FormattedString>
+            <Span Text="{Binding Path=Event, Converter={StaticResource TotalPriceToPriceConverter}}" />
+        </FormattedString>
+    </Label.FormattedText>
+
+</Label>

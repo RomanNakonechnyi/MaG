@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage
+    x:Class="MeetAndGo.Views.MessagePopupPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:MeetAndGo.Controls"
+    xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+    xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+    Padding="30"
+    prism:ViewModelLocator.AutowireViewModel="True"
+    Animation="Slide"
+    BackgroundClicked="PopupPage_BackgroundClicked"
+    BackgroundColor="Transparent"
+    BackgroundInputTransparent="False"
+    CloseWhenBackgroundIsClicked="False">
+    <Frame BackgroundColor="#424242" VerticalOptions="CenterAndExpand">
+        <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="Center">
+            <Label
+                FontAttributes="Bold"
+                FontSize="Large"
+                Text="{Binding Vote.Candidate.FullName}"
+                TextColor="White" />
+
+            <controls:RatingControl
+                HorizontalOptions="CenterAndExpand"
+                IsEnabled="False"
+                Rating="{Binding Vote.Rating}" />
+
+            <Frame
+                Padding="0"
+                BorderColor="Black"
+                IsClippedToBounds="True">
+                <Editor
+                    x:Name="entry"
+                    BackgroundColor="White"
+                    HeightRequest="150"
+                    Text="{Binding Vote.Comment}" />
+            </Frame>
+
+            <StackLayout HorizontalOptions="EndAndExpand" Orientation="Horizontal">
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="Large"
+                    Text="Send"
+                    TextColor="White"
+                    VerticalOptions="Center" />
+                <Image Source="white_plane.png" HeightRequest="25" />
+                <StackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+                </StackLayout.GestureRecognizers>
+            </StackLayout>
+        </StackLayout>
+    </Frame>
+</pages:PopupPage>

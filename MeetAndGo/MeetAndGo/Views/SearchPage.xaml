@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MeetAndGo.Views.SearchPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:placeSearchBar="clr-namespace:DurianCode.PlacesSearchBar;assembly=DurianCode.PlacesSearchBar"
+    xmlns:controls="clr-namespace:MeetAndGo.Controls;assembly=MeetAndGo"
+    xmlns:behaviors="clr-namespace:MeetAndGo.Helpers;assembly=MeetAndGo"
+    xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+    prism:ViewModelLocator.AutowireViewModel="True"
+    NavigationPage.HasBackButton="False"
+    BackgroundColor="White">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Entry">
+                <Setter Property="FontFamily" Value="Karma" />
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                <Setter Property="TextColor" Value="Black" />
+                <Setter Property="BackgroundColor" Value="White" />
+            </Style>
+            <Style TargetType="placeSearchBar:PlacesBar">
+                <Setter Property="BackgroundColor" Value="White" />
+                <Setter Property="PlaceholderColor" Value="LightGray" />
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+            </Style>
+            <Style TargetType="ListView">
+                <Setter Property="BackgroundColor" Value="White" />
+                <Setter Property="IsVisible" Value="False" />
+                <Setter Property="VerticalOptions" Value="Start" />
+            </Style>
+            <Color x:Key="buttonColor">White</Color>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackLayout Grid.Row="2">
+            <controls:UserMapControl
+                x:Name="map"
+                Directions="{Binding Directions}"
+                MapType="Street"
+                MoveToCommand="{Binding MoveToCommand}"
+                VerticalOptions="FillAndExpand" />
+
+            <Button
+                Margin="0,10"
+                BackgroundColor="{StaticResource buttonColor}"
+                BorderColor="Black"
+                BorderRadius="40"
+                BorderWidth="2"
+                Command="{Binding SearchCommand}"
+                HeightRequest="80"
+                HorizontalOptions="Center"
+                Text="Search"
+                TextColor="Black"
+                WidthRequest="80" />
+        </StackLayout>
+
+        <placeSearchBar:PlacesBar
+            x:Name="StartLocationBar"
+            Grid.Row="0"
+            Margin="0,10,0,0"
+            HeightRequest="30"
+            IsFocused="{Binding SearchBarModel.StartBarIsFocused}"
+            MinimumSearchText="2"
+            Placeholder="Start location"
+            Text="{Binding StartLocation.Name}"
+            Type="All">
+            <placeSearchBar:PlacesBar.Behaviors>
+                <behaviors:PropertyChangedToCommand Command="{Binding PropertyCommand}" />
+            </placeSearchBar:PlacesBar.Behaviors>
+        </placeSearchBar:PlacesBar>
+
+
+        <placeSearchBar:PlacesBar
+            x:Name="EndLocationBar"
+            Grid.Row="1"
+            Margin="0,10,0,0"
+            HeightRequest="30"
+            IsFocused="{Binding SearchBarModel.EndBarIsFocused}"
+            MinimumSearchText="2"
+            Placeholder="End location"
+            Text="{Binding EndLocation.Name}"
+            Type="All">
+            <placeSearchBar:PlacesBar.Behaviors>
+                <behaviors:PropertyChangedToCommand Command="{Binding PropertyCommand}" />
+            </placeSearchBar:PlacesBar.Behaviors>
+        </placeSearchBar:PlacesBar>
+
+        <ListView
+            Grid.Row="1"
+            Grid.RowSpan="2"
+            BackgroundColor="White"
+            IsVisible="{Binding SearchBarModel.StartListIsVisible}"
+            ItemsSource="{Binding SearchBarModel.StartLocations}"
+            SelectedItem="{Binding SearchBarModel.StartSelectedItem}">
+            <ListView.Behaviors>
+                <behaviors:ItemSelectedToCommand SelectCommand="{Binding StartSelectedItemCommand}" />
+            </ListView.Behaviors>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextCell Text="{Binding Description}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <ActivityIndicator
+            Grid.Row="1"
+            HeightRequest="30"
+            IsRunning="{Binding SearchBarModel.StartLocationLoading, Mode=TwoWay}"
+            IsVisible="{Binding SearchBarModel.StartLocationLoading, Mode=TwoWay}"
+            IsEnabled="{Binding SearchBarModel.StartLocationLoading, Mode=TwoWay}"
+            WidthRequest="30" />
+
+        <ListView
+            Grid.Row="2"
+            IsVisible="{Binding SearchBarModel.EndListIsVisible}"
+            ItemsSource="{Binding SearchBarModel.EndLocations}"
+            SelectedItem="{Binding SearchBarModel.EndSelectedItem}">
+            <ListView.Behaviors>
+                <behaviors:ItemSelectedToCommand SelectCommand="{Binding EndSelectedItemCommand}" />
+            </ListView.Behaviors>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextCell Text="{Binding Description}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <ActivityIndicator
+            Grid.Row="2"
+            HeightRequest="30"
+            HorizontalOptions="CenterAndExpand"
+            IsRunning="{Binding SearchBarModel.EndLocationLoading, Mode=TwoWay}"
+            IsVisible="{Binding SearchBarModel.EndLocationLoading, Mode=TwoWay}"
+            IsEnabled="{Binding SearchBarModel.EndLocationLoading, Mode=TwoWay}"
+            VerticalOptions="Start"
+            WidthRequest="30" />
+        
+    </Grid>
+</ContentPage>

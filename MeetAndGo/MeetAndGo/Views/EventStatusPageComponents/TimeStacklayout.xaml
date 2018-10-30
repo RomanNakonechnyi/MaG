@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<StackLayout
+    x:Class="MeetAndGo.Views.EventStatusPageComponents.TimeStacklayout"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:conventors="clr-namespace:MeetAndGo.Conventors"
+    Orientation="Horizontal">
+
+    <StackLayout.Resources>
+        <ResourceDictionary>
+            <conventors:RemainingTimeConverter x:Key="remainingTimeConverter" />
+            <Style TargetType="Label">
+                <Setter Property="TextColor" Value="#303030" />
+            </Style>
+        </ResourceDictionary>
+    </StackLayout.Resources>
+
+    <Image Source="icon_calendar" Style="{StaticResource eventStatusIcons}" />
+
+    <StackLayout HorizontalOptions="Start" VerticalOptions="Center">
+        <Label Text="{Binding Event.CreatedTime, StringFormat='{}{0:dd MMM, dddd}'}" />
+        <Label Text="{Binding Event.CreatedTime, StringFormat='{}{0:hh:mm tt}'}" />
+    </StackLayout>
+
+    <Label
+        FontSize="Small"
+        HorizontalOptions="EndAndExpand"
+        Text="{Binding Path=Event, Converter={StaticResource remainingTimeConverter}}"
+        VerticalOptions="Center" />
+
+</StackLayout>
